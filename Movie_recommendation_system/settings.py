@@ -4,7 +4,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 项目秘钥
-SECRET_KEY = 'bhml2023(140w8x3ktw=yzm0=@3h5wr=$$4s!g(s-^s7^@e5=kz'
+SECRET_KEY = "SECRET_KEY"
 
 # 调试模式
 DEBUG = True
@@ -64,10 +64,10 @@ DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'db_movie_recommend',
-        'USER': 'root',
-        'PASSWORD': 'pingxie817',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'USER': 'DB_USER,
+        'PASSWORD': 'DB_PASSWORD‘,
+        'HOST': 'DB_HOST‘,
+        'PORT': 'DB_PORT‘
     }
 }
 
