@@ -1,0 +1,237 @@
+{% extends "movie/base.html" %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #e0f2fe;
+        font-family: 'Segoe UI', sans-serif;
+        color: #1f2937;
+    }
+
+    .container {
+        padding: 40px 20px;
+        background-color: transparent;
+    }
+
+    .jumbotron {
+        background-image: url('/static/pexels -cottonbro-3945321.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 24px 32px;
+        border-radius: 16px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .jumbotron::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(4px);
+        z-index: 1;
+    }
+
+    .jumbotron h1,
+    .jumbotron p,
+    .quote-block {
+        position: relative;
+        z-index: 2;
+    }
+
+    .jumbotron h1 {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .jumbotron p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .quote-block {
+        font-style: italic;
+        font-size: 15px;
+        color: #e5e7eb;
+        margin: 0 0 20px 0;
+    }
+
+    .quote-block small {
+        display: block;
+        margin-top: 4px;
+        font-size: 14px;
+        color: #d1d5db;
+    }
+
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
+        justify-items: center;
+        margin-top: 20px;
+    }
+
+    .movie-card {
+        width: 200px;
+        background-color: rgba(255, 255, 255, 0.85);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .movie-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+
+    .poster_div {
+        height: 300px;
+        overflow: hidden;
+    }
+
+    .poster_div img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .movie-info {
+        padding: 10px 12px;
+    }
+
+    .movie-info p {
+        margin: 8px 0 5px;
+        font-weight: bold;
+        color: #1f2937;
+        font-size: 15px;
+    }
+
+    .movie-info strong {
+        color: #e09015;
+        font-size: 14px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 30px 0;
+        list-style: none;
+    }
+
+    .pagination li a {
+        padding: 8px 14px;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.6);
+        color: #1f2937;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .pagination li a:hover {
+        background-color: #60a5fa;
+        color: white;
+    }
+
+    .pagination li.active a {
+        background-color: #2563eb;
+        color: white;
+        pointer-events: none;
+    }
+
+    .pagination li.disabled a {
+        opacity: 0.4;
+        cursor: default;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 50px;
+        font-size: 14px;
+        color: #6b7280;
+    }
+</style>
+
+<div class="container">
+    <!-- 🎓 项目介绍 -->
+    <div class="jumbotron">
+        <h1>Project Profile</h1>
+        <div class="quote-block">
+            “Hope is a good thing, maybe the best of things. And no good thing ever dies.”
+            <small>— <em>The Shawshank Redemption</em></small>
+        </div>
+        <p>This project aims to provide an efficient movie recommendation platform for university students in the UK.</p>
+        <p>The website operates in two modes: registered and unregistered users.</p>
+        <p>It offers functionalities such as movie search, category browsing, trending movie display, and detailed movie information.</p>
+        <p>Registered users can receive personalized recommendations based on their ratings, while administrators can manage movie and user information.</p>
+    </div>
+
+    <!-- 🎞️ 电影卡片展示 -->
+    <div class="movie-grid">
+        {% for movie in movies %}
+            <a href="{% url 'movie:detail' movie.pk %}" style="text-decoration: none;">
+                <div class="movie-card">
+                    <div class="poster_div">
+                        <img src="/static/movie/poster/{{ movie.imdb_id }}.jpg" alt="{{ movie.name }}">
+                    </div>
+                    <div class="movie-info">
+                        <p>{{ movie.name }}</p>
+                        <strong>{{ movie.get_score }}</strong>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+
+    <!-- ⏩ 分页器 -->
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li><a href="{% url 'movie:index' %}?p={{ page_obj.previous_page_number }}">previous</a></li>
+            {% else %}
+                <li class="disabled"><a href="javascript:void(0);">previous</a></li>
+            {% endif %}
+
+            {% if left_has_more %}
+                <li><a href="{% url 'movie:index' %}?p=1">1</a></li>
+                <li><a href="javascript:void(0)">...</a></li>
+            {% endif %}
+
+            {% for left_page in left_pages %}
+                <li><a href="{% url 'movie:index' %}?p={{ left_page }}">{{ left_page }}</a></li>
+            {% endfor %}
+
+            <li class="active"><a href="javascript:void(0);">{{ current_page }}</a></li>
+
+            {% for right_page in right_pages %}
+                <li><a href="{% url 'movie:index' %}?p={{ right_page }}">{{ right_page }}</a></li>
+            {% endfor %}
+
+            {% if right_has_more %}
+                <li><a href="javascript:void(0)">...</a></li>
+                <li><a href="{% url 'movie:index' %}?p={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li><a href="{% url 'movie:index' %}?p={{ page_obj.next_page_number }}">next</a></li>
+            {% else %}
+                <li class="disabled"><a href="javascript:void(0);">next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+</div>
+
+{% endblock %}
