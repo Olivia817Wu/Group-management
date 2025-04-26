@@ -9,3 +9,4 @@ typing-extensions==4.7.1
 gunicorn
 dj-database-url
 psycopg2-binary
+whitenoise
