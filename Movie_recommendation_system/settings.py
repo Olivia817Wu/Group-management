@@ -10,7 +10,7 @@ SECRET_KEY = "SECRET_KEY"
 DEBUG = True
 
 # 允许的主机
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = []
 
 # 注册app
 INSTALLED_APPS = [
