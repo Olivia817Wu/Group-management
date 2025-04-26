@@ -4,7 +4,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 项目秘钥
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = 'bhml2023(140w8x3ktw=yzm0=@3h5wr=$$4s!g(s-^s7^@e5=kz'
 
 # 调试模式
 DEBUG = True
