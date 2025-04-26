@@ -4,7 +4,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 项目秘钥
-SECRET_KEY = 'bhml2023(140w8x3ktw=yzm0=@3h5wr=$$4s!g(s-^s7^@e5=kz'
+SECRET_KEY = "SECRET_KEY"
 
 # 调试模式
 DEBUG = True
@@ -60,14 +60,16 @@ WSGI_APPLICATION = 'Movie_recommendation_system.wsgi.application'
 
 # 数据库配置
 
-import dj_database_url
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_movie_recommend',
+        'USER': 'DB_USER,
+        'PASSWORD': 'DB_PASSWORD‘,
+        'HOST': 'DB_HOST‘,
+        'PORT': 'DB_PORT‘
+    }
 }
-
 
 # 密码验证
 AUTH_PASSWORD_VALIDATORS = [
@@ -99,5 +101,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
-# AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+
